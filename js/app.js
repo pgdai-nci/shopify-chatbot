@@ -503,8 +503,14 @@ You are in Phase 1 — you don't have access to real product data or order syste
     bindEvents();
     renderAllMessages();
 
-    /* pulse animation after 3 seconds for first visit */
-    if (state.messages.length === 0) {
+    /* Auto-open on desktop */
+    var isDesktop = window.innerWidth >= 768;
+    if (isDesktop) {
+      openChat();
+    }
+
+    /* pulse animation after 3 seconds for first visit (mobile only) */
+    if (!isDesktop && state.messages.length === 0) {
       setTimeout(function () {
         els.launcher.classList.add('is-pulsing');
         setTimeout(function () {
