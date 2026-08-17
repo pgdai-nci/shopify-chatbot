@@ -396,6 +396,12 @@ You are in Phase 1 — you don't have access to real product data or order syste
     els.launcher.classList.add('is-open');
     els.launcher.setAttribute('aria-label', 'Close chat');
 
+    /* hide launcher on desktop when chat is open */
+    var isDesktop = window.innerWidth >= 768;
+    if (isDesktop) {
+      els.launcher.style.display = 'none';
+    }
+
     /* mobile back arrow */
     var isMobile = window.innerWidth < 768;
     if (isMobile) {
@@ -421,6 +427,12 @@ You are in Phase 1 — you don't have access to real product data or order syste
     els.widget.classList.add('shopibot-animating-exit');
     els.launcher.classList.remove('is-open');
     els.launcher.setAttribute('aria-label', 'Open chat');
+
+    /* show launcher bubble on desktop when chat is closed */
+    var isDesktop = window.innerWidth >= 768;
+    if (isDesktop) {
+      els.launcher.style.display = '';
+    }
 
     setTimeout(function () {
       els.widget.setAttribute('hidden', '');

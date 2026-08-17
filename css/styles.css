@@ -368,20 +368,14 @@ body.shopibot-landing {
 /* ─── Suggestion Bar ─── */
 .shopibot-suggestions {
   display: flex;
+  flex-wrap: wrap;
   gap: var(--sb-space-sm);
-  overflow-x: auto;
   padding: var(--sb-space-sm) 0;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-}
-.shopibot-suggestions::-webkit-scrollbar {
-  display: none;
 }
 .shopibot-suggestions[hidden] {
   display: none;
 }
 .shopibot-suggestion {
-  flex-shrink: 0;
   border-radius: var(--sb-radius-button);
   background: var(--sb-white);
   border: 1px solid var(--sb-gray-200);
@@ -486,7 +480,9 @@ body.shopibot-landing {
     max-height: calc(100vh - 200px);
   }
   .shopibot-launcher {
-    display: none;
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
   }
 }
 
