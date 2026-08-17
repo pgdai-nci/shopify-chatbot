@@ -268,9 +268,7 @@ You are in Phase 1 — you don't have access to real product data or order syste
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        contents: buildContentsForAPI(messages),
-        systemInstruction: { parts: [{ text: SYSTEM_INSTRUCTION }] },
-        generationConfig: { temperature: 0.7, maxOutputTokens: 1024 }
+        contents: buildContentsForAPI(messages)
       })
     });
 
@@ -285,6 +283,10 @@ You are in Phase 1 — you don't have access to real product data or order syste
     }
 
     var data = await response.json();
+
+    if (data.text) {
+      return data.text;
+    }
 
     if (!data.candidates || data.candidates.length === 0) {
       throw { type: 'empty', message: 'No response generated' };
