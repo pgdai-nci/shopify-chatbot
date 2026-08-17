@@ -23,20 +23,23 @@ ShopiBot is a lightweight, self-hosted chatbot widget for Shopify stores. It flo
 
 ### 1. Deploy the Cloudflare Worker
 
+The Worker is already deployed at `https://shopify-chatbot-worker.liveapplications.workers.dev/`.
+
+You just need to set the Gemini API key as a secret:
+
 ```bash
-cd shopify-chatbot
-wrangler deploy
+# Via Cloudflare Dashboard:
+# Go to Workers & AI > shopify-chatbot-worker > Settings > Variables and Secrets
+# Add a new Secret: GEMINI_API_KEY = your-gemini-api-key
+
+# Or via Wrangler:
 wrangler secret put GEMINI_API_KEY
 # Paste your Gemini API key when prompted
 ```
 
-Copy the deployed Worker URL (e.g. `https://shopify-chatbot-worker.YOUR_SUBDOMAIN.workers.dev/`).
+Get a free API key at [aistudio.google.com](https://aistudio.google.com) (no credit card required).
 
-### 2. Configure the Worker URL
-
-Open `js/app.js` and replace `YOUR_SUBDOMAIN` in the `WORKER_URL` constant with your actual subdomain.
-
-### 3. Deploy to GitHub Pages
+### 2. Deploy to GitHub Pages
 
 1. Push this repo to GitHub
 2. Go to **Settings → Pages**

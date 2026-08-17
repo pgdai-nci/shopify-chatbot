@@ -6,3 +6,4 @@ gemini_chatbot_instructions.png
 wrangler.toml
 .wrangler/
 dist/
+agent-studio-pipeline-report.pdf
