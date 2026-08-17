@@ -1,0 +1,543 @@
+:root {
+  --sb-green: #008060;
+  --sb-green-dark: #006E52;
+  --sb-green-light: #E3F1EB;
+  --sb-white: #FFFFFF;
+  --sb-gray-50: #F6F6F7;
+  --sb-gray-100: #F1F1F1;
+  --sb-gray-200: #E1E3E5;
+  --sb-gray-400: #8C8C8C;
+  --sb-gray-600: #6D7175;
+  --sb-gray-900: #202223;
+  --sb-red: #E53E3E;
+  --sb-red-light: #FFF5F5;
+  --sb-space-xs: 4px;
+  --sb-space-sm: 8px;
+  --sb-space-md: 12px;
+  --sb-space-lg: 16px;
+  --sb-space-xl: 24px;
+  --sb-shadow-widget: 0 8px 32px rgba(0, 0, 0, 0.12);
+  --sb-shadow-launcher: 0 4px 16px rgba(0, 128, 96, 0.4);
+  --sb-shadow-launcher-hover: 0 6px 20px rgba(0, 128, 96, 0.5);
+  --sb-radius-widget: 16px;
+  --sb-radius-bubble: 16px;
+  --sb-radius-bubble-user: 16px 16px 4px 16px;
+  --sb-radius-bubble-assistant: 16px 16px 16px 4px;
+  --sb-radius-input: 12px;
+  --sb-radius-button: 20px;
+  --sb-radius-circle: 50%;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  color: var(--sb-gray-900);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ─── Demo Page ─── */
+.demo-page {
+  min-height: 100vh;
+  padding: 40px 24px 120px;
+  background: var(--sb-gray-100);
+}
+.demo-hero {
+  text-align: center;
+  padding: 60px 0 40px;
+}
+.demo-hero h1 {
+  font-size: 48px;
+  font-weight: 700;
+  color: var(--sb-green);
+}
+.demo-hero p {
+  font-size: 18px;
+  color: var(--sb-gray-600);
+  margin-top: 8px;
+}
+.demo-products {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 24px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+.demo-card {
+  background: var(--sb-white);
+  border-radius: 12px;
+  padding: 0 0 16px;
+  overflow: hidden;
+}
+.demo-card-img {
+  width: 100%;
+  height: 160px;
+  background: var(--sb-gray-200);
+}
+.demo-card h3 {
+  font-size: 16px;
+  font-weight: 600;
+  padding: 12px 16px 4px;
+}
+.demo-card p {
+  font-size: 14px;
+  color: var(--sb-gray-600);
+  padding: 0 16px;
+}
+
+/* ─── Launcher ─── */
+.shopibot-launcher {
+  position: fixed;
+  bottom: var(--sb-space-xl);
+  right: var(--sb-space-xl);
+  width: 60px;
+  height: 60px;
+  border-radius: var(--sb-radius-circle);
+  background: var(--sb-green);
+  color: var(--sb-white);
+  border: none;
+  cursor: pointer;
+  z-index: 999999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--sb-shadow-launcher);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  will-change: transform;
+}
+.shopibot-launcher:hover {
+  transform: scale(1.08);
+  box-shadow: var(--sb-shadow-launcher-hover);
+}
+.shopibot-launcher:active {
+  transform: scale(0.96);
+}
+.shopibot-launcher .shopibot-icon-close {
+  display: none;
+}
+.shopibot-launcher.is-open .shopibot-icon-chat {
+  display: none;
+}
+.shopibot-launcher.is-open .shopibot-icon-close {
+  display: block;
+}
+.shopibot-launcher:focus-visible {
+  outline: 2px solid var(--sb-green);
+  outline-offset: 2px;
+}
+@keyframes shopibot-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.06); }
+}
+.shopibot-launcher.is-pulsing {
+  animation: shopibot-pulse 0.6s ease-in-out 1;
+}
+
+/* ─── Widget (Desktop) ─── */
+.shopibot-widget {
+  position: fixed;
+  bottom: 96px;
+  right: var(--sb-space-xl);
+  width: 400px;
+  height: 600px;
+  max-height: 600px;
+  border-radius: var(--sb-radius-widget);
+  box-shadow: var(--sb-shadow-widget);
+  background: var(--sb-white);
+  display: flex;
+  flex-direction: column;
+  z-index: 999998;
+  overflow: hidden;
+  will-change: transform, opacity;
+}
+.shopibot-widget[hidden] {
+  display: none;
+}
+.shopibot-widget.shopibot-animating-enter {
+  animation: shopibot-slide-up 0.2s ease-out forwards;
+}
+.shopibot-widget.shopibot-animating-exit {
+  animation: shopibot-slide-down 0.15s ease-in forwards;
+}
+@keyframes shopibot-slide-up {
+  from { transform: translateY(16px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+@keyframes shopibot-slide-down {
+  from { transform: translateY(0); opacity: 1; }
+  to { transform: translateY(16px); opacity: 0; }
+}
+
+/* ─── Header ─── */
+.shopibot-header {
+  display: flex;
+  align-items: center;
+  gap: var(--sb-space-md);
+  padding: 0 var(--sb-space-lg);
+  height: 56px;
+  background: var(--sb-green);
+  color: var(--sb-white);
+  flex-shrink: 0;
+}
+.shopibot-header-avatar {
+  flex-shrink: 0;
+}
+.shopibot-avatar-circle {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--sb-radius-circle);
+  background: var(--sb-white);
+  color: var(--sb-green);
+  font-weight: 700;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.shopibot-header-info {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.shopibot-header-name {
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 1.2;
+}
+.shopibot-header-status {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.2;
+}
+.shopibot-header-minimize,
+.shopibot-header-back {
+  margin-left: auto;
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: none;
+  color: var(--sb-white);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+.shopibot-header-minimize:hover,
+.shopibot-header-back:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+.shopibot-header-minimize:focus-visible,
+.shopibot-header-back:focus-visible {
+  outline: 2px solid var(--sb-white);
+  outline-offset: 2px;
+}
+.shopibot-header-back[hidden] {
+  display: none;
+}
+
+/* ─── Messages ─── */
+.shopibot-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--sb-space-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sb-space-sm);
+  -webkit-overflow-scrolling: touch;
+}
+.shopibot-messages::-webkit-scrollbar {
+  width: 6px;
+}
+.shopibot-messages::-webkit-scrollbar-track {
+  background: transparent;
+}
+.shopibot-messages::-webkit-scrollbar-thumb {
+  background: var(--sb-gray-200);
+  border-radius: 3px;
+}
+.shopibot-messages::-webkit-scrollbar-thumb:hover {
+  background: var(--sb-gray-400);
+}
+
+/* ─── Message Bubbles ─── */
+.shopibot-message {
+  display: flex;
+  gap: var(--sb-space-sm);
+  max-width: 80%;
+  animation: shopibot-msg-in 0.15s ease-out;
+}
+@keyframes shopibot-msg-in {
+  from { transform: translateY(8px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+.shopibot-message-user {
+  align-self: flex-end;
+  flex-direction: row-reverse;
+}
+.shopibot-message-assistant {
+  align-self: flex-start;
+}
+.shopibot-bubble {
+  padding: var(--sb-space-md) var(--sb-space-lg);
+  font-size: 15px;
+  line-height: 1.4;
+  word-wrap: break-word;
+}
+.shopibot-bubble p {
+  margin: 0;
+}
+.shopibot-bubble p + p {
+  margin-top: 8px;
+}
+.shopibot-bubble-user {
+  background: var(--sb-green);
+  color: var(--sb-white);
+  border-radius: var(--sb-radius-bubble-user);
+}
+.shopibot-bubble-assistant {
+  background: var(--sb-gray-50);
+  color: var(--sb-gray-900);
+  border-radius: var(--sb-radius-bubble-assistant);
+}
+.shopibot-avatar-small {
+  flex-shrink: 0;
+  align-self: flex-end;
+}
+.shopibot-avatar-circle-sm {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--sb-radius-circle);
+  background: var(--sb-green-light);
+  color: var(--sb-green);
+  font-weight: 700;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ─── Quick Replies ─── */
+.shopibot-quick-replies {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sb-space-sm);
+  padding: var(--sb-space-sm) 0 0;
+  animation: shopibot-msg-in 0.15s ease-out;
+}
+.shopibot-quick-reply {
+  border-radius: var(--sb-radius-button);
+  background: var(--sb-white);
+  border: 1px solid var(--sb-green);
+  color: var(--sb-green);
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s, color 0.15s;
+}
+.shopibot-quick-reply:hover {
+  background: var(--sb-green);
+  color: var(--sb-white);
+}
+.shopibot-quick-reply:focus-visible {
+  outline: 2px solid var(--sb-green);
+  outline-offset: 2px;
+}
+.shopibot-quick-replies.is-disabled .shopibot-quick-reply {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* ─── Typing Indicator ─── */
+.shopibot-typing-dots {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: var(--sb-space-md) var(--sb-space-lg);
+}
+.shopibot-typing-dots span {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--sb-gray-600);
+  animation: shopibot-bounce 1.2s infinite ease-in-out;
+}
+.shopibot-typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+.shopibot-typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes shopibot-bounce {
+  0%, 80%, 100% { transform: translateY(0); opacity: 0.4; }
+  40% { transform: translateY(-6px); opacity: 1; }
+}
+
+/* ─── Error Bubble ─── */
+.shopibot-bubble-error {
+  background: var(--sb-red-light);
+  border: 1px solid var(--sb-red);
+  border-radius: var(--sb-radius-bubble-assistant);
+  padding: var(--sb-space-md) var(--sb-space-lg);
+  color: var(--sb-gray-900);
+}
+.shopibot-bubble-error p {
+  margin: 0;
+}
+.shopibot-retry {
+  background: var(--sb-red);
+  color: var(--sb-white);
+  border: none;
+  border-radius: 8px;
+  padding: 6px 12px;
+  margin-top: 8px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  transition: background 0.15s;
+}
+.shopibot-retry:hover {
+  background: #c53030;
+}
+.shopibot-retry:focus-visible {
+  outline: 2px solid var(--sb-red);
+  outline-offset: 2px;
+}
+.shopibot-retry:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* ─── Input Area ─── */
+.shopibot-input-area {
+  padding: var(--sb-space-sm) var(--sb-space-lg) var(--sb-space-sm);
+  border-top: 1px solid var(--sb-gray-200);
+  flex-shrink: 0;
+}
+.shopibot-input-wrapper {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--sb-space-sm);
+  position: relative;
+}
+.shopibot-input {
+  width: 100%;
+  border: 1px solid var(--sb-gray-200);
+  border-radius: var(--sb-radius-input);
+  padding: 12px 48px 12px 16px;
+  font-size: 15px;
+  line-height: 1.4;
+  font-family: inherit;
+  resize: none;
+  overflow-y: hidden;
+  max-height: 120px;
+  color: var(--sb-gray-900);
+  background: var(--sb-white);
+  outline: none;
+  transition: border-color 0.15s;
+}
+.shopibot-input:focus {
+  border-color: var(--sb-green);
+}
+.shopibot-input::placeholder {
+  color: var(--sb-gray-400);
+}
+.shopibot-send {
+  position: absolute;
+  right: 6px;
+  bottom: 6px;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--sb-radius-circle);
+  border: none;
+  background: var(--sb-gray-200);
+  color: var(--sb-white);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s;
+  flex-shrink: 0;
+}
+.shopibot-send:not(:disabled) {
+  background: var(--sb-green);
+}
+.shopibot-send:not(:disabled):hover {
+  background: var(--sb-green-dark);
+}
+.shopibot-send:disabled {
+  cursor: default;
+}
+.shopibot-send:focus-visible {
+  outline: 2px solid var(--sb-green);
+  outline-offset: 2px;
+}
+.shopibot-powered {
+  font-size: 11px;
+  color: var(--sb-gray-600);
+  text-align: center;
+  padding: var(--sb-space-xs) 0;
+}
+
+/* ─── Mobile ─── */
+@media (max-width: 767px) {
+  .shopibot-widget {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100vw;
+    height: 100vh;
+    max-height: 100vh;
+    border-radius: 0;
+    box-shadow: none;
+  }
+  .shopibot-widget.shopibot-animating-enter {
+    animation: shopibot-mobile-slide-up 0.3s ease-out forwards;
+  }
+  .shopibot-widget.shopibot-animating-exit {
+    animation: shopibot-mobile-slide-down 0.2s ease-in forwards;
+  }
+  @keyframes shopibot-mobile-slide-up {
+    from { transform: translateY(100%); }
+    to { transform: translateY(0); }
+  }
+  @keyframes shopibot-mobile-slide-down {
+    from { transform: translateY(0); }
+    to { transform: translateY(100%); }
+  }
+  .shopibot-launcher {
+    width: 64px;
+    height: 64px;
+    bottom: 20px;
+    right: 20px;
+  }
+  .shopibot-messages {
+    padding: var(--sb-space-md);
+  }
+  .shopibot-message {
+    max-width: 85%;
+  }
+  .shopibot-input {
+    font-size: 16px;
+    padding: 12px 48px 12px 16px;
+  }
+  .shopibot-header-back {
+    display: flex;
+  }
+  .shopibot-header-minimize {
+    display: none;
+  }
+}
+
+/* ─── Focus visible global ─── */
+*:focus-visible {
+  outline: 2px solid var(--sb-green);
+  outline-offset: 2px;
+}

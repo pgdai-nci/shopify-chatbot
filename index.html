@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ShopiBot - Shopping Assistant</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23008060'><path d='M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z'/></svg>">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <main class="demo-page">
+    <div class="demo-hero">
+      <h1>Shopi</h1>
+      <p>Your favorite online store</p>
+    </div>
+    <section class="demo-products">
+      <div class="demo-card">
+        <div class="demo-card-img"></div>
+        <h3>Running Shoes</h3>
+        <p>$89.00</p>
+      </div>
+      <div class="demo-card">
+        <div class="demo-card-img"></div>
+        <h3>Cotton T-Shirt</h3>
+        <p>$29.00</p>
+      </div>
+      <div class="demo-card">
+        <div class="demo-card-img"></div>
+        <h3>Denim Jacket</h3>
+        <p>$129.00</p>
+      </div>
+      <div class="demo-card">
+        <div class="demo-card-img"></div>
+        <h3>Yoga Pants</h3>
+        <p>$59.00</p>
+      </div>
+      <div class="demo-card">
+        <div class="demo-card-img"></div>
+        <h3>Backpack</h3>
+        <p>$45.00</p>
+      </div>
+      <div class="demo-card">
+        <div class="demo-card-img"></div>
+        <h3>Sunglasses</h3>
+        <p>$35.00</p>
+      </div>
+    </section>
+  </main>
+
+  <button id="shopibot-launcher" class="shopibot-launcher" aria-label="Open chat">
+    <svg class="shopibot-icon-chat" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+    </svg>
+    <svg class="shopibot-icon-close" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+    </svg>
+  </button>
+
+  <div id="shopibot-widget" class="shopibot-widget shopibot-desktop" role="dialog" aria-label="ShopiBot chat" hidden>
+    <div class="shopibot-header">
+      <button class="shopibot-header-back" aria-label="Go back" hidden>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="15 18 9 12 15 6"/>
+        </svg>
+      </button>
+      <div class="shopibot-header-avatar">
+        <div class="shopibot-avatar-circle">S</div>
+      </div>
+      <div class="shopibot-header-info">
+        <span class="shopibot-header-name">ShopiBot</span>
+        <span class="shopibot-header-status">Online</span>
+      </div>
+      <button class="shopibot-header-minimize" aria-label="Close chat">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </div>
+
+    <div id="shopibot-messages" class="shopibot-messages" role="log" aria-live="polite">
+    </div>
+
+    <div class="shopibot-input-area">
+      <div class="shopibot-input-wrapper">
+        <textarea id="shopibot-input" class="shopibot-input" placeholder="Type a message..." rows="1" aria-label="Message input"></textarea>
+        <button id="shopibot-send" class="shopibot-send" aria-label="Send message" disabled>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/>
+          </svg>
+        </button>
+      </div>
+      <div class="shopibot-powered">Powered by ShopiBot</div>
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>

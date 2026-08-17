@@ -1,0 +1,8 @@
+node_modules/
+.agent-studio/
+.opencode/
+build_chatbot_instructions.png
+gemini_chatbot_instructions.png
+wrangler.toml
+.wrangler/
+dist/
