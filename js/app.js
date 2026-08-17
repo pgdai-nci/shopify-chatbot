@@ -64,7 +64,8 @@ You are in Phase 1 — you don't have access to real product data or order syste
       input: document.getElementById('shopibot-input'),
       sendBtn: document.getElementById('shopibot-send'),
       headerMinimize: document.querySelector('.shopibot-header-minimize'),
-      headerBack: document.querySelector('.shopibot-header-back')
+      headerBack: document.querySelector('.shopibot-header-back'),
+      headerClear: document.querySelector('.shopibot-header-clear')
     };
   }
 
@@ -449,11 +450,22 @@ You are in Phase 1 — you don't have access to real product data or order syste
     els.sendBtn.disabled = !els.input.value.trim();
   }
 
+  /* ─── Clear Chat ─── */
+  function clearChat() {
+    state.messages = [];
+    state.greetingShown = false;
+    saveMessages();
+    saveConfig({ greetingShown: false });
+    els.messages.innerHTML = '';
+    showWelcome();
+  }
+
   /* ─── Events ─── */
   function bindEvents() {
     els.launcher.addEventListener('click', toggleChat);
     els.headerMinimize.addEventListener('click', closeChat);
     els.headerBack.addEventListener('click', closeChat);
+    els.headerClear.addEventListener('click', clearChat);
 
     els.input.addEventListener('input', function () {
       autoResize();

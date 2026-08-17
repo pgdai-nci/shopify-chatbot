@@ -215,11 +215,13 @@ body.shopibot-landing {
   flex-shrink: 0;
 }
 .shopibot-header-minimize:hover,
-.shopibot-header-back:hover {
+.shopibot-header-back:hover,
+.shopibot-header-clear:hover {
   background: rgba(255, 255, 255, 0.15);
 }
 .shopibot-header-minimize:focus-visible,
-.shopibot-header-back:focus-visible {
+.shopibot-header-back:focus-visible,
+.shopibot-header-clear:focus-visible {
   outline: 2px solid var(--sb-white);
   outline-offset: 2px;
 }
@@ -533,6 +535,9 @@ body.shopibot-landing {
     display: flex;
   }
   .shopibot-header-minimize {
+    display: none;
+  }
+  .shopibot-header-clear {
     display: none;
   }
 }
