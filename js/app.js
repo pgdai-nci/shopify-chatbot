@@ -49,7 +49,6 @@ You are in Phase 1 — you don't have access to real product data or order syste
     messages: [],
     isLoading: false,
     lastSentMessage: null,
-    quickRepliesDisabled: false,
     greetingShown: false
   };
 
@@ -65,7 +64,7 @@ You are in Phase 1 — you don't have access to real product data or order syste
       sendBtn: document.getElementById('shopibot-send'),
       headerMinimize: document.querySelector('.shopibot-header-minimize'),
       headerBack: document.querySelector('.shopibot-header-back'),
-      headerClear: document.querySelector('.shopibot-header-clear')
+      suggestions: document.getElementById('shopibot-suggestions')
     };
   }
 
@@ -157,25 +156,6 @@ You are in Phase 1 — you don't have access to real product data or order syste
       wrapper.appendChild(bubble);
     }
 
-    if (msg.quickReplies && msg.quickReplies.length > 0) {
-      const qr = document.createElement('div');
-      qr.className = 'shopibot-quick-replies';
-      qr.setAttribute('role', 'group');
-      qr.setAttribute('aria-label', 'Quick replies');
-      msg.quickReplies.forEach(function (item) {
-        const btn = document.createElement('button');
-        btn.className = 'shopibot-quick-reply';
-        btn.dataset.message = item.message;
-        btn.textContent = item.label;
-        btn.addEventListener('click', function () {
-          disableQuickReplies(qr);
-          sendMessage(item.message);
-        });
-        qr.appendChild(btn);
-      });
-      wrapper.appendChild(qr);
-    }
-
     els.messages.appendChild(wrapper);
     scrollToBottom();
     return wrapper;
@@ -198,12 +178,37 @@ You are in Phase 1 — you don't have access to real product data or order syste
       role: 'assistant',
       text: WELCOME_TEXT,
       timestamp: Date.now(),
-      quickReplies: WELCOME_REPLIES,
       isError: false
     };
     state.messages.push(welcomeMsg);
     renderMessage(welcomeMsg);
     saveMessages();
+    renderSuggestions(WELCOME_REPLIES);
+  }
+
+  /* ─── Suggestion Bar ─── */
+  function renderSuggestions(items) {
+    els.suggestions.innerHTML = '';
+    if (!items || items.length === 0) {
+      els.suggestions.setAttribute('hidden', '');
+      return;
+    }
+    els.suggestions.removeAttribute('hidden');
+    items.forEach(function (item) {
+      var btn = document.createElement('button');
+      btn.className = 'shopibot-suggestion';
+      btn.textContent = item.label;
+      btn.addEventListener('click', function () {
+        hideSuggestions();
+        sendMessage(item.message);
+      });
+      els.suggestions.appendChild(btn);
+    });
+  }
+
+  function hideSuggestions() {
+    els.suggestions.innerHTML = '';
+    els.suggestions.setAttribute('hidden', '');
   }
 
   function showTyping() {
@@ -243,14 +248,6 @@ You are in Phase 1 — you don't have access to real product data or order syste
       }
     }
     tick();
-  }
-
-  /* ─── Quick Reply Handling ─── */
-  function disableQuickReplies(container) {
-    if (container) {
-      container.classList.add('is-disabled');
-    }
-    state.quickRepliesDisabled = true;
   }
 
   /* ─── API ─── */
@@ -317,6 +314,8 @@ You are in Phase 1 — you don't have access to real product data or order syste
   /* ─── Send / Receive ─── */
   async function sendMessage(text) {
     if (!text || state.isLoading) return;
+
+    hideSuggestions();
 
     var userMsg = {
       id: msgId(),
@@ -450,22 +449,11 @@ You are in Phase 1 — you don't have access to real product data or order syste
     els.sendBtn.disabled = !els.input.value.trim();
   }
 
-  /* ─── Clear Chat ─── */
-  function clearChat() {
-    state.messages = [];
-    state.greetingShown = false;
-    saveMessages();
-    saveConfig({ greetingShown: false });
-    els.messages.innerHTML = '';
-    showWelcome();
-  }
-
   /* ─── Events ─── */
   function bindEvents() {
     els.launcher.addEventListener('click', toggleChat);
     els.headerMinimize.addEventListener('click', closeChat);
     els.headerBack.addEventListener('click', closeChat);
-    els.headerClear.addEventListener('click', clearChat);
 
     els.input.addEventListener('input', function () {
       autoResize();
