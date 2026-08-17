@@ -2,7 +2,7 @@
   'use strict';
 
   /* ─── Configuration ─── */
-  const WORKER_URL = 'https://shopify-chatbot-worker.liveapplications.workers.dev/';
+  const WORKER_URL = 'https://shopify-chatbot-gamma.vercel.app/api/chat';
 
   const SYSTEM_INSTRUCTION = `You are ShopiBot, a friendly and helpful shopping assistant for Shopi, an online store.
 

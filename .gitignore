@@ -7,3 +7,7 @@ wrangler.toml
 .wrangler/
 dist/
 agent-studio-pipeline-report.pdf
+.vercel/
+.vercelignore
+
+.vercel
